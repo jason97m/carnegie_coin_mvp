@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Admin Dashboard</h1>
+<ul>
+{% for s in scholarships %}
+    <li>{{ s.name }}: ${{ s.amount }}</li>
+{% endfor %}
+</ul>
+{% endblock %}

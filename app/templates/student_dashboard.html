@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Student Dashboard</h1>
+<ul>
+{% for subject, grade in grades.items() %}
+    <li>{{ subject }}: {{ grade }}</li>
+{% endfor %}
+</ul>
+{% endblock %}
