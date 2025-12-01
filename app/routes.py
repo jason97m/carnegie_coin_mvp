@@ -37,13 +37,29 @@ def eth_price():
         url = "https://api.coingecko.com/api/v3/simple/price"
         params = {
             "ids": "ethereum",
-            "vs_currencies": "usd"
+            "vs_currencies": "usd",
         }
-        response = requests.get(url, params=params, timeout=5)
+
+        headers = {
+            "Accept": "application/json",
+            "User-Agent": "Mozilla/5.0 (Heroku Dyno)"
+        }
+
+        response = requests.get(url, params=params, headers=headers, timeout=10)
+
+        if response.status_code != 200:
+            return jsonify({"error": f"CoinGecko error: {response.status_code}"}), 500
+
         data = response.json()
 
-        return jsonify({
-            "eth_usd": data["ethereum"]["usd"]
-        })
+        # Extra validation (Heroku sometimes gets empty JSON)
+        if "ethereum" not in data or "usd" not in data["ethereum"]:
+            return jsonify({"error": "Invalid data format from API"}), 500
+
+        return jsonify({"eth_usd": data["ethereum"]["usd"]})
+
+    except requests.exceptions.Timeout:
+        return jsonify({"error": "Request timed out"}), 500
+
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
