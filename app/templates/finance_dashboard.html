@@ -4,4 +4,30 @@
 <h1>Finance Dashboard</h1>
 <p>Tuition Due: ${{ tuition_due }}</p>
 <p>School Wallet Balance: {{ school_balance }}</p>
+
+<h1>Ethereum Price Dashboard</h1>
+    <p>Current ETH Price (USD): <span id="ethPrice">Loading...</span></p>
+
+    <script>
+        async function fetchETHPrice() {
+            try {
+                let res = await fetch("/eth_price");
+                let data = await res.json();
+
+                if (data.eth_usd) {
+                    document.getElementById("ethPrice").innerText =
+                        "$" + data.eth_usd.toLocaleString();
+                } else {
+                    document.getElementById("ethPrice").innerText = "Error loading price";
+                }
+            } catch (err) {
+                document.getElementById("ethPrice").innerText = "Network error";
+            }
+        }
+
+        // Fetch price every 20 seconds
+        fetchETHPrice();
+        setInterval(fetchETHPrice, 20000);
+    </script>
+
 {% endblock %}

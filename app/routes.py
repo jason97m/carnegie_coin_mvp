@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, jsonify
 import os
 from app.utils import get_balance
 
@@ -28,3 +28,22 @@ def finance_dashboard():
 def admin_dashboard():
     scholarships = [{"name": "Alice", "amount": 1000}, {"name": "Bob", "amount": 1500}]
     return render_template("admin_dashboard.html", scholarships=scholarships)
+
+api = Blueprint('api', __name__)
+
+@api.route("/eth_price")
+def eth_price():
+    try:
+        url = "https://api.coingecko.com/api/v3/simple/price"
+        params = {
+            "ids": "ethereum",
+            "vs_currencies": "usd"
+        }
+        response = requests.get(url, params=params, timeout=5)
+        data = response.json()
+
+        return jsonify({
+            "eth_usd": data["ethereum"]["usd"]
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
