@@ -29,37 +29,3 @@ def admin_dashboard():
     scholarships = [{"name": "Alice", "amount": 1000}, {"name": "Bob", "amount": 1500}]
     return render_template("admin_dashboard.html", scholarships=scholarships)
 
-api = Blueprint('api', __name__)
-
-@api.route("/eth_price")
-def eth_price():
-    try:
-        url = "https://api.coingecko.com/api/v3/simple/price"
-        params = {
-            "ids": "ethereum",
-            "vs_currencies": "usd",
-        }
-
-        headers = {
-            "Accept": "application/json",
-            "User-Agent": "Mozilla/5.0 (Heroku Dyno)"
-        }
-
-        response = requests.get(url, params=params, headers=headers, timeout=10)
-
-        if response.status_code != 200:
-            return jsonify({"error": f"CoinGecko error: {response.status_code}"}), 500
-
-        data = response.json()
-
-        # Extra validation (Heroku sometimes gets empty JSON)
-        if "ethereum" not in data or "usd" not in data["ethereum"]:
-            return jsonify({"error": "Invalid data format from API"}), 500
-
-        return jsonify({"eth_usd": data["ethereum"]["usd"]})
-
-    except requests.exceptions.Timeout:
-        return jsonify({"error": "Request timed out"}), 500
-
-    except Exception as e:
-        return jsonify({"error": f"Unexpected error: {str(e)}"}), 500
