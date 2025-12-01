@@ -30,3 +30,28 @@ def get_balance(address=ACCOUNT_ADDRESS):
     except Exception as e:
         print("Error fetching balance:", e)
         return None
+
+def get_transfer_events():
+    w3 = Web3(Web3.HTTPProvider(os.getenv("WEB3_PROVIDER")))
+    contract_address = os.getenv("CONTRACT_ADDRESS")
+
+    with open("blockchain/CarnegieCoin_abi.json") as f:
+        abi = json.load(f)
+
+    contract = w3.eth.contract(address=contract_address, abi=abi)
+
+    # Fetch events
+    transfer_filter = contract.events.Transfer.create_filter(fromBlock=0)
+    events = transfer_filter.get_all_entries()
+
+    parsed = []
+    for e in events:
+        parsed.append({
+            "from": e['args']['from'],
+            "to": e['args']['to'],
+            "amount": e['args']['value'],
+            "tx_hash": e['transactionHash'].hex(),
+            "block": e['blockNumber']
+        })
+
+    return parsed

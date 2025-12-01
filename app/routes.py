@@ -29,3 +29,11 @@ def admin_dashboard():
     scholarships = [{"name": "Alice", "amount": 1000}, {"name": "Bob", "amount": 1500}]
     return render_template("admin_dashboard.html", scholarships=scholarships)
 
+@main.route("/ledger")
+def ledger():
+    entries = get_transfer_events()
+
+    # Newest first
+    entries.sort(key=lambda x: x["block"], reverse=True)
+
+    return render_template("ledger.html", entries=entries)

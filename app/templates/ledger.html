@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Carnegie Coin Ledger</h2>
+
+<table class="table">
+    <tr>
+        <th>Tx Hash</th>
+        <th>Sender</th>
+        <th>Recipient</th>
+        <th>Amount</th>
+        <th>Timestamp</th>
+    </tr>
+
+    {% for tx in entries %}
+    <tr>
+        <td>{{ tx.tx_hash }}</td>
+        <td>{{ tx.sender }}</td>
+        <td>{{ tx.recipient }}</td>
+        <td>{{ tx.amount }}</td>
+        <td>{{ tx.timestamp }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
