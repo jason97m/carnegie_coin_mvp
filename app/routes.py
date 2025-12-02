@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, jsonify
 import os
 from app.utils import get_balance
+from app.utils import get_transfer_events
 
 main = Blueprint("main", __name__, template_folder="templates")
 
@@ -31,9 +32,9 @@ def admin_dashboard():
 
 @main.route("/ledger")
 def ledger():
-    entries = get_transfer_events()
+    events = get_transfer_events()
 
     # Newest first
-    entries.sort(key=lambda x: x["block"], reverse=True)
+    events.sort(key=lambda x: x["block"], reverse=True)
 
-    return render_template("ledger.html", entries=entries)
+    return render_template("ledger.html", events=events)
