@@ -1,6 +1,89 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Educator Dashboard</h1>
-<p>Carnegie Coin Current Balance: {{ balance }}</p>
+<div class="dashboard-container">
+
+    <h1>Educator Dashboard</h1>
+    <p>Carnegie Coin Current Balance: {{ balance }}</p>
+
+    <hr>
+
+    <!-- Upload Content -->
+    <h2>Upload Learning Content</h2>
+    <form action="/educator/upload_content" method="POST" enctype="multipart/form-data">
+        <label for="content_title">Content Title:</label><br>
+        <input type="text" id="content_title" name="content_title" required><br><br>
+
+        <label for="content_text">Text Content:</label><br>
+        <textarea id="content_text" name="content_text" rows="6" cols="60" required></textarea><br><br>
+
+        <label for="content_file">Or upload file:</label><br>
+        <input type="file" id="content_file" name="content_file"><br><br>
+
+        <button type="submit">Upload Content</button>
+    </form>
+
+    <hr>
+
+    <!-- Assign Content -->
+    <h2>Assign Content to Students</h2>
+    <form action="/educator/assign_content" method="POST">
+        <label for="content_select">Choose Content:</label><br>
+        <select name="content_id" id="content_select" required>
+            {% for content in contents %}
+            <option value="{{ content.id }}">{{ content.title }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="student_select">Assign To:</label><br>
+        <select name="student_id" id="student_select" required>
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Assign Content</button>
+    </form>
+
+    <hr>
+
+    <!-- Create Quiz -->
+    <h2>Create a Quiz</h2>
+    <form action="/educator/create_quiz" method="POST">
+        <label for="quiz_title">Quiz Title:</label><br>
+        <input type="text" id="quiz_title" name="quiz_title" required><br><br>
+
+        <label for="quiz_question">Question:</label><br>
+        <textarea id="quiz_question" name="quiz_question" rows="4" cols="60" required></textarea><br><br>
+
+        <label for="quiz_answer">Correct Answer:</label><br>
+        <input type="text" id="quiz_answer" name="quiz_answer" required><br><br>
+
+        <button type="submit">Create Quiz</button>
+    </form>
+
+    <hr>
+
+    <!-- Assign Quiz -->
+    <h2>Assign Quiz to Students</h2>
+    <form action="/educator/assign_quiz" method="POST">
+        <label for="quiz_select">Choose Quiz:</label><br>
+        <select name="quiz_id" id="quiz_select" required>
+            {% for quiz in quizzes %}
+            <option value="{{ quiz.id }}">{{ quiz.title }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="student_select_quiz">Assign To:</label><br>
+        <select name="student_id" id="student_select_quiz" required>
+            {% for student in students %}
+            <option value="{{ student.id }}">{{ student.name }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Assign Quiz</button>
+    </form>
+
+</div>
 {% endblock %}
+

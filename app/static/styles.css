@@ -1,0 +1,93 @@
+/* body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+nav a {
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+h1 {
+    color: #2c3e50;
+} */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Top Banner */
+.top-banner {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner-left {
+    font-size: 22px;
+    font-weight: bold;
+    color: #D00000; /* CMU red */
+}
+
+.banner-right {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* space between dog and text */
+}
+
+.scotty-logo {
+    height: 32px;
+    width: auto;
+}
+
+.login-link {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    padding-right: 5px;   /* prevents the text from touching the edge */
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}
+
+nav {
+    margin: 20px;
+}
+
+nav a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+h1 {
+    color: #2c3e50;
+}
+
+.dashboard-container {
+    max-width: 800px;
+    margin: 0 auto;      /* centers horizontally */
+    padding: 20px;
+    text-align: center;  /* centers text + forms */
+}
+
+.dashboard-container form {
+    display: inline-block;     /* keeps forms narrow while still centered */
+    text-align: left;          /* aligns labels & fields properly */
+    margin-bottom: 20px;
+}
+
+.dashboard-container input,
+.dashboard-container textarea,
+.dashboard-container select {
+    width: 100%;               /* makes inputs look clean and consistent */
+    max-width: 400px;          /* keeps fields from being too wide */
+}
+
+

@@ -14,12 +14,16 @@ contract CarnegieCoin {
     constructor(uint256 _initialSupply) {
         totalSupply = _initialSupply;
         balanceOf[msg.sender] = _initialSupply;
+        // Required ERC20 mint event:
+        emit Transfer(address(0), msg.sender, _initialSupply);
     }
 
     function transfer(address _to, uint256 _amount) public returns (bool) {
         require(balanceOf[msg.sender] >= _amount, "Not enough balance");
         balanceOf[msg.sender] -= _amount;
         balanceOf[_to] += _amount;
+        // Required ERC20 transfer event:
+        emit Transfer(msg.sender, _to, _amount);
         return true;
     }
 }

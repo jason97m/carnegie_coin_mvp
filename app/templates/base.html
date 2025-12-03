@@ -2,9 +2,20 @@
 <html>
 <head>
     <title>Carnegie Coin MVP</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <!-- Top Banner -->
+    <header class="top-banner">
+        <div class="banner-left">
+            Carnegie Mellon University
+        </div>
+
+        <div class="banner-right"> 
+            <a href="/login" class="login-link">Log In</a>
+        </div>
+    </header>
+    <!-- Navigation -->
     <nav>
         <a href="/">Home</a> |
         <a href="/educator">Educator</a> |
@@ -17,3 +28,4 @@
     {% block content %}{% endblock %}
 </body>
 </html>
+
