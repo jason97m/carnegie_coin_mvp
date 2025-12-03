@@ -1,9 +1,13 @@
 from flask import Blueprint, render_template, jsonify
+from web3 import Web3
 import os
 from app.utils import get_balance
 from app.utils import get_transfer_events
+from dotenv import load_dotenv
 
 main = Blueprint("main", __name__, template_folder="templates")
+
+load_dotenv()
 
 @main.route("/")
 def index():
@@ -27,8 +31,26 @@ def finance_dashboard():
 
 @main.route("/admin")
 def admin_dashboard():
-    scholarships = [{"name": "Alice", "amount": 1000}, {"name": "Bob", "amount": 1500}]
-    return render_template("admin_dashboard.html", scholarships=scholarships)
+    # Connect to blockchain
+    url = os.getenv("WEB3_PROVIDER")
+    w3 = Web3(Web3.HTTPProvider(url))
+    contract_address = os.getenv("CONTRACT_ADDRESS")
+
+    print(contract_address)
+    print("Connected:", w3.is_connected())
+    print("Chain:", w3.eth.chain_id)
+    print("Latest block:", w3.eth.block_number)
+
+    # Example scholarships to pass to template
+    scholarships = [
+        {"name": "Scholarship A", "amount": 1000},
+        {"name": "Scholarship B", "amount": 2000},
+    ]
+
+    return render_template("admin_dashboard.html", scholarships=scholarships, connected=w3.is_connected(),
+        chain_id=w3.eth.chain_id,
+        latest_block=w3.eth.block_number,
+        contract_address=contract_address)
 
 @main.route("/ledger")
 def ledger():
